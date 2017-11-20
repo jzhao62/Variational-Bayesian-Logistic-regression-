@@ -41,39 +41,6 @@ def import_MNIST():
 
     return train_dataset, train_labels, raw_train_labels, validation_data_input, valid_labels, raw_valid_labels, test_dataset, test_labels, raw_test_labels
 
-# def import_USPS():
-#     path_to_data = "./USPSdata/Numerals_1/"
-#     img_list = os.listdir(path_to_data)
-#     sz = (28,28)
-#     validation_usps = []
-#     validation_usps_label = []
-#     for i in range(10):
-#         label_data = path_to_data + str(i) + '/'
-#         img_list = os.listdir(label_data)
-#         for name in img_list:
-#             if '.png' in name:
-#                 file_name_dir = label_data + name;
-#                 for image_path in glob.glob(file_name_dir):
-#                     image = misc.imread(image_path)
-#                 image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-#                 resized_img = resize_and_scale(image, sz, 255)
-#                 validation_usps.append(resized_img.flatten())
-#                 validation_usps_label.append(i)
-#     validation_usps = np.array(validation_usps)
-#     # print('usps',validation_usps.shape)
-#     validation_usps_label= np.array(validation_usps_label)
-#
-#     output1 = open('usps_test_image.pkl', 'wb')
-#     output2 = open('usps_test_label.pkl','wb');
-#
-#     pickle.dump(validation_usps, output1);
-#     pickle.dump(validation_usps_label, output2)
-#
-#     output1.close()
-#     output2.close()
-#
-#     return validation_usps, validation_usps_label
-
 
 def load_usps(pkl_image, pkl_label):
     pkl1 = open('data/usps_test_image.pkl', 'rb')

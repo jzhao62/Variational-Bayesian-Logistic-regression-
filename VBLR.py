@@ -29,57 +29,7 @@ class BayesianLogisticRegression(LinearClassifierMixin, BaseEstimator):
         self.coef_ = np.asarray(self.coef_)
         return self
 
-
-
-
-
-
-
 class VBLogisticRegression(BayesianLogisticRegression):
-    '''
-    Variational Bayesian Logistic Regression with local variational approximation.
-
-
-    Parameters:
-    -----------
-    n_iter: int, optional (DEFAULT = 50 )
-       Maximum number of iterations
-
-    tol: float, optional (DEFAULT = 1e-3)
-       Convergence threshold, if cange in coefficients is less than threshold
-       algorithm is terminated
-
-    fit_intercept: bool, optinal ( DEFAULT = True )
-       If True uses bias term in model fitting
-
-    a: float, optional (DEFAULT = 1e-6)
-       Rate parameter for Gamma prior on precision parameter of coefficients
-
-    b: float, optional (DEFAULT = 1e-6)
-       Shape parameter for Gamma prior on precision parameter of coefficients
-
-    verbose: bool, optional (DEFAULT = False)
-       Verbose mode
-
-
-    Attributes
-    ----------
-    coef_ : array, shape = (n_features)
-        Coefficients of the regression model (mean of posterior distribution)
-
-    sigma_ : array, shape = (n_features, n_features)
-        estimated covariance matrix of the weights, computed only
-        for non-zero coefficients
-
-    intercept_: array, shape = (n_features)
-        intercepts
-
-
-    References:
-    -----------
-   [1] Bishop 2006, Pattern Recognition and Machine Learning ( Chapter 10 )
-   [2] Murphy 2012, Machine Learning A Probabilistic Perspective ( Chapter 21 )
-    '''
 
     def __init__(self, n_iter=50, a=1e-4, b=1e-4 ):
         super(VBLogisticRegression, self).__init__(n_iter)
@@ -92,8 +42,6 @@ class VBLogisticRegression(BayesianLogisticRegression):
         n_samples, n_features = X.shape
         XY = np.dot(X.T, (y - 0.5))
         w0 = np.zeros(n_features)
-
-        # hyperparameters of q(alpha) (approximate distribution of precision parameter of weights)
         a = self.a + 0.5 * n_features
         b = self.b
 
@@ -109,8 +57,7 @@ class VBLogisticRegression(BayesianLogisticRegression):
             b = self.b + 0.5 * (np.sum(w[1:] ** 2) + np.sum(Ri[1:, :] ** 2))
 
 
-            # -------- update eps  ------------
-            # In the M-step update parameter eps which controls accuracy of local variational approximation to lower bound
+
             XMX = np.dot(X, w) ** 2
             XSX = np.sum(np.dot(X, Ri.T) ** 2, axis=1)
             eps = np.sqrt(XMX + XSX)
@@ -138,10 +85,6 @@ class VBLogisticRegression(BayesianLogisticRegression):
         ''' is there any specific function in scipy that efficently inverts low triangular matrix XD '''
         mean = solve_triangular(R.T, Z, lower=False)
         Ri = solve_triangular(R, np.eye(X.shape[1]), lower=True)
-
-        # if full_covar:
-        #     sigma = np.dot(Ri.T, Ri)
-        #     return mean, sigma
         return mean, Ri
     def add_bias(self, X):
         '''Adds intercept to data matrix'''
@@ -151,7 +94,6 @@ class VBLogisticRegression(BayesianLogisticRegression):
     def get_variance(self, X):
         return np.asarray([np.sum(np.dot(X, s) * X, axis=1) for s in self.sigma_])
     def try_predict(self, X):
-
         prediction = self.predict_proba(X);
         ret = np.argmax(prediction, 1)
         return ret

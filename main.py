@@ -19,12 +19,12 @@ def main():
     print('------------------------------')
 
 
-    x_train = train_image[0:2500]
-    y_train = raw_train_labels[0:2500]
+    x_train = train_image[0:50000]
+    y_train = raw_train_labels[0:50000]
     x_test = validation_image
     y_test = raw_valid_labels
-    x_valid = validation_image[0:1000];
-    y_valid = raw_valid_labels[0:1000];
+    x_valid = validation_image[0:10000];
+    y_valid = raw_valid_labels[0:10000];
 
     usps_test = validation_usps
     usps_label = validation_usps_label
@@ -37,16 +37,16 @@ def main():
         vblr_prediction = vblr.try_predict(x_valid)
         print("\n === VBLogisticRegression on Validation set (MNIST)  ===")
         print(classification_report(y_valid, vblr_prediction))
-        cnf_vblr = metrics.confusion_matrix(y_valid, vblr_prediction)
-        plot_confusion_matrix(cnf_vblr,normalize=False,title='Confusion matrix(VBLR)')
-        plt.show()
-
-        # print("\n === VBLR on USPS set ===")
-        # vblr_prediction_usps = vblr.predict(usps_test)
-        # print(classification_report(usps_label, vblr_prediction_usps))
-        # cnf_eblr_usps = metrics.confusion_matrix(usps_label, eblr_prediction_usps)
-        # plot_confusion_matrix(cnf_eblr_usps, normalize=False, title='Confusion matrix(EBLR) on USPS testSet')
+        # cnf_vblr = metrics.confusion_matrix(y_valid, vblr_prediction)
+        # plot_confusion_matrix(cnf_vblr,normalize=False,title='Confusion matrix(VBLR)')
         # plt.show()
+
+        print("\n === VBLR on USPS set ===")
+        vblr_prediction_usps = vblr.predict(usps_test)
+        print(classification_report(usps_label, vblr_prediction_usps))
+        cnf_eblr_usps = metrics.confusion_matrix(usps_label, vblr_prediction_usps)
+        plot_confusion_matrix(cnf_eblr_usps, normalize=False, title='Confusion matrix(EBLR) on USPS testSet')
+        plt.show()
 
 
 main()
