@@ -1,7 +1,10 @@
 Author: Jingyi Zhao
 
 Variational bayesian logistic regression applied on digit classification problem (MNIST and USPS)
+The VBLR problem can be implemented in a simpler manner using black box variational inference, I will make that repository public soon.
 
 Reference:
 Sklearn's Bayesian Logistic model on OVR problem
 https://github.com/AmazaspShumik/sklearn-bayes
+
+Jingyi Zhao 2017/11/20
