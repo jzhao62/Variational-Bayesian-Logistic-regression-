@@ -1,5 +1,7 @@
 Author: Jingyi Zhao
 
+Variational bayesian logistic regression applied on digit classification problem (MNIST and USPS)
+
 Reference:
 Sklearn's Bayesian Logistic model on OVR problem
 https://github.com/AmazaspShumik/sklearn-bayes
