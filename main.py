@@ -45,7 +45,7 @@ def main():
         vblr_prediction_usps = vblr.predict(usps_test)
         print(classification_report(usps_label, vblr_prediction_usps))
         cnf_eblr_usps = metrics.confusion_matrix(usps_label, vblr_prediction_usps)
-        plot_confusion_matrix(cnf_eblr_usps, normalize=False, title='Confusion matrix(EBLR) on USPS testSet')
+        plot_confusion_matrix(cnf_eblr_usps, normalize=False, title='Confusion matrix(VBLR) on USPS testSet')
         plt.show()
 
 
